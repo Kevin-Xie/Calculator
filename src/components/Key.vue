@@ -1,7 +1,8 @@
 <template>
-    <div class="cal-btn"
-         :style="buttonStyle"
-        ><slot></slot>
+    <div class="btn"
+         @click="handleClick"
+         :style="buttonStyle">
+        <slot></slot>
     </div>
 </template>
 
@@ -34,6 +35,11 @@ export default {
             default: '2.5em'
         }
     },
+    methods: {
+        handleClick() {
+            this.$emit('click');
+        }
+    },
     computed: {
         buttonStyle() {
             return {
@@ -47,19 +53,17 @@ export default {
         }
     },
     mounted: function() {
-        console.log(this.buttonStyle)
     }
 }
 </script>
 
 <style scoped>
-.cal-btn {
+.btn {
     margin: 0.2em;
-    /* display: inline-block; */
     text-align: center;
     font-size: 1.7rem;
 }
-.cal-btn:active {
+.btn:active {
     background-color: white;
 }
 </style>

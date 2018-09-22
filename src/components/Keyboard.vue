@@ -1,12 +1,13 @@
 <template>
     <div class="keyboard">
         <v-key 
-            v-for="(item, index) in items" 
+            v-for="(item, index) in keys" 
             :bgColor=item.bgColor
             :fontColor=item.fontColor
             :width=item.width
             :borderRadius=item.borderRadius
-            :key="index">
+            :key="index"
+            @click="keyPress(index)">
             {{item.text}}
         </v-key>
     </div>
@@ -19,7 +20,7 @@ export default {
     name: 'Keyboard',
     data() {
         return {
-            items: [
+            keys: [
                         {bgColor: '#ccc', fontColor: 'black', text: 'AC'}, 
                         {bgColor: '#ccc', fontColor: 'black', text: '+/-'}, 
                         {bgColor: '#ccc', fontColor: 'black', text: '%'}, 
@@ -40,13 +41,21 @@ export default {
                         {text: '3'},
                         {bgColor: 'orange', text: '+'},
 
-                        {text: '0', width: '5.3em', borderRadius: '2em'},
+                        {text: '0', width: '5.35em', borderRadius: '2em'},
                         {text: '.'},
                         {bgColor: 'orange', text: '='},
                     ],
         }
     },
-    components: { VKey }
+    components: { VKey },
+    methods: {
+        keyPress(index) {
+            console.log('keypress', index)
+        },
+        stratergy(index) {
+            
+        }
+    },
 }
 </script>
 

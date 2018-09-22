@@ -22,8 +22,7 @@ export default {
 .container {
     margin: 0 auto;
     width: 250px;
-    height: 480px;
+    height: 460px;
     background-color: black;
-    /* min-width: ; */
 }
 </style>
