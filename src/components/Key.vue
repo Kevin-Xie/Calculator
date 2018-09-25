@@ -62,6 +62,7 @@ export default {
     margin: 0.2em;
     text-align: center;
     font-size: 1.7rem;
+    cursor: pointer;
 }
 .btn:active {
     background-color: white;

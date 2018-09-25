@@ -1,11 +1,12 @@
 <template>
     <div class="container">
-        <div style="height: 150px;"></div>
+        <v-screen></v-screen>
         <v-keyboard></v-keyboard>
     </div>
 </template>
 
 <script>
+import VScreen from './Screen'
 import VKeyboard from './Keyboard'
 export default {
     name: 'panel',
@@ -14,7 +15,10 @@ export default {
 
         }
     },
-    components: { VKeyboard }
+    components: { VScreen, VKeyboard },
+    methods: {
+
+    }
 }
 </script>
 
