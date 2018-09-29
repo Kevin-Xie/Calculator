@@ -21,44 +21,50 @@ export default {
     data() {
         return {
             expression: '',
+            inputString: '',
             operatorIndex: [0,1,2,3,7,11,15,18],
             keys: [
                         {bgColor: '#ccc', fontColor: 'black', text: 'AC', fn: () => this.expression = ''}, 
                         {bgColor: '#ccc', fontColor: 'black', text: '+/-', fn: () => {} }, 
-                        {bgColor: '#ccc', fontColor: 'black', text: '%', fn: () => {} }, 
+                        {bgColor: '#ccc', fontColor: 'black', text: '%', fn: () => {this.inputString += '*0.01'} }, 
                         {bgColor: 'orange', text: '/', fn: () => {} },
 
-                        {text: '7', },
-                        {text: '8', },
-                        {text: '9', },
+                        {text: '7', fn: () => {this.inputString += '7'} },
+                        {text: '8', fn: () => {this.inputString += '8'}},
+                        {text: '9', fn: () => {this.inputString += '9'}},
                         {bgColor: 'orange', text: 'x', fn: () => {} },
 
-                        {text: '4', },
-                        {text: '5', },
-                        {text: '6', },
+                        {text: '4', fn: () => {this.inputString += '4'}},
+                        {text: '5', fn: () => {this.inputString += '5'}},
+                        {text: '6', fn: () => {this.inputString += '6'}},
                         {bgColor: 'orange', text: '-', fn: () => {} },
 
-                        {text: '1', },
-                        {text: '2', },
-                        {text: '3', },
+                        {text: '1', fn: () => {this.inputString += '1'}},
+                        {text: '2', fn: () => {this.inputString += '2'}},
+                        {text: '3', fn: () => {this.inputString += '3'}},
                         {bgColor: 'orange', text: '+', fn: () => {} },
 
-                        {text: '0', width: '5.35em', borderRadius: '2em', },
-                        {text: '.', },
+                        {text: '0', width: '5.35em', borderRadius: '2em', fn: () => {this.inputString += (this.inputString.startsWith('0') ? '' : '0')}},
+                        {text: '.', fn: () => {this.inputString += (this.inputString.includes('.') ? '' : '.')}},
                         {bgColor: 'orange', text: '=', fn: () => {} },
                     ],
         }
     },
     components: { VKey },
+    computed: {
+        inputNumber() {
+            return eval(this.inputString)
+        }
+    },
     methods: {
         keyPress(index) {
             this.stratergy(index);
         },
         stratergy(index) {
-            if( this.operatorIndex.indexOf(index) > -1 )
-                console.log('cal: ', eval(this.expression))
-            this.expression += this.keys[index].text;
-            console.log(this.expression)
+            this.$store.commit('textChange', this.keys[index].text);
+        },
+        calculate() {
+            return eval(this.expression);
         }
     },
 }

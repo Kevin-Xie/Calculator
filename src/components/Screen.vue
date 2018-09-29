@@ -3,7 +3,7 @@
         <div class="data">
         </div>
         <div class="result">
-            <span style="font-size: 3em;">{{result}}</span>
+            <span style="font-size: 3em;">{{text}}</span>
         </div>
     </div>
 </template>
@@ -16,15 +16,9 @@ export default {
 
         }
     },
-    props: {
-        text: {
-            type: Number,
-            default: 0
-        }
-    },
     computed: {
-        result: function() {
-            return this.text.toLocaleString();
+        text: function() {
+            return this.$store.state.text;
         }
     }
 }
