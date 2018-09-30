@@ -24,47 +24,75 @@ export default {
             inputString: '',
             operatorIndex: [0,1,2,3,7,11,15,18],
             keys: [
-                        {bgColor: '#ccc', fontColor: 'black', text: 'AC', fn: () => this.expression = ''}, 
+                        {bgColor: '#ccc', fontColor: 'black', text: 'AC', fn: () => {return this.reset()} }, 
                         {bgColor: '#ccc', fontColor: 'black', text: '+/-', fn: () => {} }, 
                         {bgColor: '#ccc', fontColor: 'black', text: '%', fn: () => {this.inputString += '*0.01'} }, 
-                        {bgColor: 'orange', text: '/', fn: () => {} },
+                        {bgColor: 'orange', text: '/', fn: () => {this.expression += '/'} },
 
-                        {text: '7', fn: () => {this.inputString += '7'} },
-                        {text: '8', fn: () => {this.inputString += '8'}},
-                        {text: '9', fn: () => {this.inputString += '9'}},
-                        {bgColor: 'orange', text: 'x', fn: () => {} },
+                        {text: '7', },
+                        {text: '8', },
+                        {text: '9', },
+                        {bgColor: 'orange', text: 'x', fn: () => {this.expression += '*'}},
 
-                        {text: '4', fn: () => {this.inputString += '4'}},
-                        {text: '5', fn: () => {this.inputString += '5'}},
-                        {text: '6', fn: () => {this.inputString += '6'}},
-                        {bgColor: 'orange', text: '-', fn: () => {} },
+                        {text: '4', },
+                        {text: '5', },
+                        {text: '6', },
+                        {bgColor: 'orange', text: '-', fn: () => {this.expression += '-'} },
 
-                        {text: '1', fn: () => {this.inputString += '1'}},
-                        {text: '2', fn: () => {this.inputString += '2'}},
-                        {text: '3', fn: () => {this.inputString += '3'}},
-                        {bgColor: 'orange', text: '+', fn: () => {} },
+                        {text: '1', },
+                        {text: '2', },
+                        {text: '3', },
+                        {bgColor: 'orange', text: '+', fn: () => {this.expression += '+'} },
 
-                        {text: '0', width: '5.35em', borderRadius: '2em', fn: () => {this.inputString += (this.inputString.startsWith('0') ? '' : '0')}},
-                        {text: '.', fn: () => {this.inputString += (this.inputString.includes('.') ? '' : '.')}},
+                        {text: '0', width: '5.35em', borderRadius: '2em', },
+                        {text: '.',},
                         {bgColor: 'orange', text: '=', fn: () => {} },
                     ],
         }
     },
     components: { VKey },
-    computed: {
-        inputNumber() {
-            return eval(this.inputString)
-        }
-    },
     methods: {
         keyPress(index) {
+            console.log('exp', this.expression)
             this.stratergy(index);
         },
         stratergy(index) {
-            this.$store.commit('textChange', this.keys[index].text);
+            if(!this.isOperator(index)) {
+                this.concatInputString(this.keys[index].text)
+                this.showTextOnScreen(this.inputString);
+            } else {
+                this.concatExpression();
+                this.showTextOnScreen(this.calculate());
+                this.keys[index].fn();
+            }
+        },
+        isOperator(index) {
+            return this.operatorIndex.includes(index);
+        },
+        concatExpression() {
+            this.expression += this.inputString;
+            this.clearInputString();
+        },
+        concatInputString(key) {
+            this.inputString += key;
+        },
+        clearInputString() {
+            this.inputString = '';
+        },
+        clearExpression() {
+            this.expression = '';
         },
         calculate() {
+            console.log('cal:', this.expression)
             return eval(this.expression);
+        },
+        reset() {
+            this.clearInputString();
+            this.clearExpression();
+            this.showTextOnScreen('0');
+        },
+        showTextOnScreen(text) {
+            this.$store.commit('textChange', text);
         }
     },
 }
